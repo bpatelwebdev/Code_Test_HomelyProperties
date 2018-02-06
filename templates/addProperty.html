@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Register</title>
+
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/form-elements.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="shortcut icon" href="{% static 'images/favicon.png' %}">
+        
+    </head>
+
+    <body class="log_bk background-tint"> 
+
+    <!-- background -->
+    <div class = "bground" >
+        <div class="row">
+            <div id="topbar" class="hoc clear" style="background: white;"> 
+            <div class="fl_left">
+              <h1 style="background: white;color:#1F8BEC;">Homely Rentals</h1>
+              <p style="color:#1F8BEC;">perfect rental site!</p>
+            </div>
+            </div>
+        </div>
+
+        <!-- Top content -->
+        <div class="top-content">
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                            <div class="form-top">
+                                <div class="form-top-left">
+                                    <h3>Add Property</h3>
+                                    <p>Add your property here to put your property on display.</p>
+                                    <p>{% if error %}
+                                        {{ error }}
+                                    {% endif %}
+                                    </p>
+                                </div>
+                                <div class="form-top-right">
+                                </div>
+                            </div>
+                            <div class="form-bottom">
+			    <form role="form" {% if 'editProperties' in request.path %} action="/editProperties/{{pk}}/" {% else %}action="/ownerdashboard/"{% endif %} id="myform" class="login-form" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="sr-only" for="Description">Description</label>
+                                        <input type="text" name="description" {% if data %} value="{{data.description}}" {% endif %} placeholder="About your property.." class = "form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="location">Location</label>
+                                        <input type="text" name="location" 
+                                        {% if data %} value="{{data.location}}" {% endif %} placeholder="Property Location" class = "form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="price">Price</label>
+                                        <input type="text" name="price" 
+                                        {% if data %} value="{{data.price}}" {% endif %} placeholder="House Rent.." class = "form-control">
+                                    </div>
+<div class="form-group">
+                                        <label class="sr-only" for="price">Image</label>
+                                        <input type="file" style="padding-bottom: 44px" name="image" placeholder="Add image" class = "form-control">
+                                    </div>
+                         
+                                    <button id="addprop_submit" type="button" class="btn" style="background:#1F8BEC;">Submit</button>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+
+                    
+                 
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+        <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery.backstretch.min.js' %}"></script>
+
+
+    </div>
+    </body>
+
+    <script>
+
+
+    $(document).ready(function(){   
+
+        
+        $("#addprop_submit").on('click',function(){
+
+    var $form = $('#myform');
+    var actiontype = $form.attr('action');
+    alert(actiontype);
+  var formData = new FormData($form[0]);
+                    
+                   $.ajax({url: actiontype,
+                              type: 'post',
+
+    data: formData,
+    async: false,
+    cache: false,
+    contentType: false,
+    processData: false,
+  
+
+
+                              success: function(result){
+				window.location ='/ownerdashboard/';
+
+                              },
+                              error: function(err){
+                                console.log(err);}
+                            });
+        });
+    });
+    </script>
+
+
+</html>
